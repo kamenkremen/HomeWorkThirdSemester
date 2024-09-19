@@ -32,7 +32,7 @@ else
         Console.WriteLine("Running benchmark...");
         var config = DefaultConfig.Instance;
         var summary = BenchmarkRunner.Run<Benchmarks>(config, args);
-        Console.WriteLine("Results of benchmark are in Benchmark.Artifacts/results");
+        Console.WriteLine("Results of benchmark are in BenchmarkDotNet.Artifacts");
     }
 
     if (args.Length >= 2)
