@@ -1,0 +1,12 @@
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/bin/Debug/net8.0/Lazy.deps.json
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/bin/Debug/net8.0/Lazy.dll
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/bin/Debug/net8.0/Lazy.pdb
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/obj/Debug/net8.0/Lazy.GeneratedMSBuildEditorConfig.editorconfig
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/obj/Debug/net8.0/Lazy.AssemblyInfoInputs.cache
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/obj/Debug/net8.0/Lazy.AssemblyInfo.cs
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/obj/Debug/net8.0/Lazy.csproj.CoreCompileInputs.cache
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/obj/Debug/net8.0/Lazy.sourcelink.json
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/obj/Debug/net8.0/Lazy.dll
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/obj/Debug/net8.0/refint/Lazy.dll
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/obj/Debug/net8.0/Lazy.pdb
+/home/kamen/HomeWorkThirdSemester/HomeWork2/Lazy/obj/Debug/net8.0/ref/Lazy.dll
