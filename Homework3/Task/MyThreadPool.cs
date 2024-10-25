@@ -17,8 +17,7 @@ public class MyThreadPool
     /// <param name="numberOfThreads">Number of working threads in the threadpool.</param>
     public MyThreadPool(int numberOfThreads)
     {
-        this.NumberOfThreads = numberOfThreads;
-        this.threads = new Thread[this.NumberOfThreads];
+        this.threads = new Thread[numberOfThreads];
 
         for (var i = 0; i < this.NumberOfThreads; ++i)
         {
@@ -30,7 +29,7 @@ public class MyThreadPool
     /// <summary>
     /// Gets number of threads in the threadpool.
     /// </summary>
-    public int NumberOfThreads { get; }
+    public int NumberOfThreads { get => this.threads.Length; }
 
     /// <summary>
     /// Adds task, that is going to calculate function, to the threadpool.
@@ -50,7 +49,7 @@ public class MyThreadPool
         {
             var newTask = new MyTask<TResult>(function, this);
             this.taskQueue.Enqueue(newTask.Execute);
-            Monitor.PulseAll(this.lockObject);
+            Monitor.Pulse(this.lockObject);
             return newTask;
         }
     }
@@ -71,7 +70,7 @@ public class MyThreadPool
     private void ThreadFunction(CancellationToken token)
     {
         Action? currentAction = null;
-        while (!this.taskQueue.IsEmpty)
+        while (!this.taskQueue.IsEmpty || !token.IsCancellationRequested)
         {
             lock (this.lockObject)
             {
