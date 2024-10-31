@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MD5Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec188dde86dde1900e7e193c5bf678ac5ad3c072")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+940c4a3ccfe835b3189d8eb3d808de2e6919014b")]
 [assembly: System.Reflection.AssemblyProductAttribute("MD5Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MD5Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
