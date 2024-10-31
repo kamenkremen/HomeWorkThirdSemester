@@ -1,0 +1,15 @@
+/home/kamen/HomeWorkThirdSemester/MD5/bin/Debug/net8.0/MD5
+/home/kamen/HomeWorkThirdSemester/MD5/bin/Debug/net8.0/MD5.deps.json
+/home/kamen/HomeWorkThirdSemester/MD5/bin/Debug/net8.0/MD5.runtimeconfig.json
+/home/kamen/HomeWorkThirdSemester/MD5/bin/Debug/net8.0/MD5.dll
+/home/kamen/HomeWorkThirdSemester/MD5/bin/Debug/net8.0/MD5.pdb
+/home/kamen/HomeWorkThirdSemester/MD5/obj/Debug/net8.0/MD5.GeneratedMSBuildEditorConfig.editorconfig
+/home/kamen/HomeWorkThirdSemester/MD5/obj/Debug/net8.0/MD5.AssemblyInfoInputs.cache
+/home/kamen/HomeWorkThirdSemester/MD5/obj/Debug/net8.0/MD5.AssemblyInfo.cs
+/home/kamen/HomeWorkThirdSemester/MD5/obj/Debug/net8.0/MD5.csproj.CoreCompileInputs.cache
+/home/kamen/HomeWorkThirdSemester/MD5/obj/Debug/net8.0/MD5.sourcelink.json
+/home/kamen/HomeWorkThirdSemester/MD5/obj/Debug/net8.0/MD5.dll
+/home/kamen/HomeWorkThirdSemester/MD5/obj/Debug/net8.0/refint/MD5.dll
+/home/kamen/HomeWorkThirdSemester/MD5/obj/Debug/net8.0/MD5.pdb
+/home/kamen/HomeWorkThirdSemester/MD5/obj/Debug/net8.0/MD5.genruntimeconfig.cache
+/home/kamen/HomeWorkThirdSemester/MD5/obj/Debug/net8.0/ref/MD5.dll
