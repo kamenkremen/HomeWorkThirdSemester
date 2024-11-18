@@ -27,9 +27,9 @@ public class Server(int port)
     /// <summary>
     /// Stops the server.
     /// </summary>
-    public async void Stop()
+    public void Stop()
     {
-        await this.tokenSource.CancelAsync();
+        this.tokenSource.Cancel();
         this.listener.Stop();
     }
 
@@ -38,11 +38,22 @@ public class Server(int port)
     /// </summary>
     public async void Start()
     {
-        this.listener.Start();
         var tasks = new List<Task>();
+        this.listener.Start();
         while (!this.tokenSource.IsCancellationRequested)
         {
-            var client = await this.listener.AcceptTcpClientAsync(this.tokenSource.Token);
+            TcpClient client;
+
+            // это выглядит очень неправильно, но у меня не получается пофиксить по другому(при остановке сервера бросается OperationCanceledException)
+            try
+            {
+                client = await this.listener.AcceptTcpClientAsync(this.tokenSource.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
+            }
+
             tasks.Add(Task.Run(
                 async () =>
                 {
@@ -85,7 +96,7 @@ public class Server(int port)
         await writer.WriteAsync($"{files.Length}");
         foreach (var file in files)
         {
-            await writer.WriteAsync($" {file} {Directory.Exists(file)}");
+            await writer.WriteAsync($" {file} {(Directory.Exists(file) ? "true" : "false")}");
         }
 
         await writer.WriteLineAsync();
