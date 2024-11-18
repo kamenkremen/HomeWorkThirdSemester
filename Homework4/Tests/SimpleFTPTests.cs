@@ -43,15 +43,15 @@ public class Tests
     [Test]
     public async Task ListCorrectPathTest()
     {
-        var a = await this.client.List("/home/kamen/HomeWorkThirdSemester/Homework4/Tests/TestFiles/test1");
-        var excpected = "2 /home/kamen/HomeWorkThirdSemester/Homework4/Tests/TestFiles/test1/test1.txt false /home/kamen/HomeWorkThirdSemester/Homework4/Tests/TestFiles/test1/test1folder true";
+        var a = await this.client.List("../../../TestFiles/test1");
+        var excpected = "2 ../../../TestFiles/test1/test1.txt false ../../../TestFiles/test1/test1folder true";
         Assert.That(a, Is.EqualTo(excpected));
     }
 
     [Test]
     public async Task GetCorrectPathTest()
     {
-        var a = await this.client.Get("/home/kamen/HomeWorkThirdSemester/Homework4/Tests/TestFiles/test1/test1.txt");
+        var a = await this.client.Get("../../../TestFiles/test1/test1.txt");
         var excpected = "4 hehe";
         Assert.That(a, Is.EqualTo(excpected));
     }
@@ -59,7 +59,7 @@ public class Tests
     [Test]
     public async Task ListIncorrectPath()
     {
-        var a = await this.client.List("/home/kamen/HomeWorkThirdSemester/Homework4/Tests/TestFiles/test2");
+        var a = await this.client.List("test2");
         var excpected = "-1";
         Assert.That(a, Is.EqualTo(excpected));
     }
@@ -67,7 +67,7 @@ public class Tests
     [Test]
     public async Task GetIncorrectPath()
     {
-        var a = await this.client.List("/home/kamen/HomeWorkThirdSemester/Homework4/Tests/TestFiles/test2.txt");
+        var a = await this.client.List("test2.txt");
         var excpected = "-1";
         Assert.That(a, Is.EqualTo(excpected));
     }
@@ -75,8 +75,8 @@ public class Tests
     [Test]
     public void ManyClients()
     {
-        const string listPath = "/home/kamen/HomeWorkThirdSemester/Homework4/Tests/TestFiles/test1";
-        const string getPath = "/home/kamen/HomeWorkThirdSemester/Homework4/Tests/TestFiles/test1/test1.txt";
+        const string listPath = "Tests/TestFiles/test1";
+        const string getPath = "Tests/TestFiles/test1/test1.txt";
         const int clients = 4;
 
         var listResults = new string?[clients];

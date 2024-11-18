@@ -44,7 +44,7 @@ public class Server(int port)
         {
             TcpClient client;
 
-            // это выглядит очень неправильно, но у меня не получается пофиксить по другому(при остановке сервера бросается OperationCanceledException)
+            // мне кажется что так быть не должно, но у меня не получается пофиксить по другому(при остановке сервера бросается OperationCanceledException)
             try
             {
                 client = await this.listener.AcceptTcpClientAsync(this.tokenSource.Token);
