@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LazyTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f6d08b6524430523b465c2268b6ace7f87cbc9bb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ce86c8a9f61bb441bd09c735347de79634319313")]
 [assembly: System.Reflection.AssemblyProductAttribute("LazyTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LazyTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -17,7 +17,6 @@ namespace LazyTests;
 using Lazy;
 public class Tests
 {
-
     public static ILazy<int?>[] LazyRand =
     {
         new SingleThreadLazy<int?> (() => {Random rand = new (); return rand.Next();}),
@@ -53,20 +52,28 @@ public class Tests
     [Test]
     public void TestMultiThreadLazy()
     {
-        MultiThreadLazy<int> lazy = new (() => {Random rand = new(); return rand.Next();});
-        var threadCount = Environment.ProcessorCount;
+        ManualResetEvent mre = new (false);
+        MultiThreadLazy<int> lazy = new (() => 
+            {
+                Random rand = new();
+                return rand.Next();
+            });
+        var threadCount = 8;
         int[] results = new int[threadCount];
         Thread[] threads = new Thread[threadCount];
         for (int i = 0; i < threadCount; i++)
         {
             var locali = i;
-            threads[locali] = new Thread(() => {Thread.Sleep(threadCount - locali); results[locali] = lazy.Get();});
+            threads[locali] = new Thread(() => 
+            {
+                mre.WaitOne();
+                results[locali] = lazy.Get();
+            });
+
+            threads[i].Start();
         }
 
-        foreach (var thread in threads)
-        {
-            thread.Start();
-        }
+        mre.Set();
 
         foreach (var thread in threads)
         {

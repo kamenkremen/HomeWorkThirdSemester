@@ -15,7 +15,7 @@
 namespace Lazy;
 
 /// <summary>
-/// Interface that implements lazy calculation.
+/// Interface for lazy calculation.
 /// </summary>
 /// <typeparam name="T">Return type of function, that is going to be calculated.</typeparam>
 public interface ILazy<T>
