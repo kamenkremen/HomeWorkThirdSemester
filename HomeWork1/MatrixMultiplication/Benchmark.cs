@@ -18,26 +18,25 @@ using BenchmarkDotNet.Attributes;
 /// <summary>
 /// Class that makes benchmarks of matrix multiplications.
 /// </summary>
-[XmlExporter]
-[CsvExporter]
-[HtmlExporter]
 public class Benchmarks
 {
     /// <summary>
-    /// Size of matrix for benchmark.
-    /// </summary>
-    [Params(10, 20, 100, 200, 400, 800, 1600)]
-    public int MatrixSize;
-
-    /// <summary>
     /// First matrix in multiplication.
     /// </summary>
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     private Matrix firstMatrix;
 
     /// <summary>
     /// Second matrix in multiplication.
     /// </summary>
     private Matrix secondMatrix;
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+
+    /// <summary>
+    /// Gets size of matrix for benchmark.
+    /// </summary>
+    [Params(10, 20, 100, 200, 400, 800, 1600)]
+    public int MatrixSize { get; }
 
     /// <summary>
     /// Setup for benchmark.
@@ -45,8 +44,8 @@ public class Benchmarks
     [GlobalSetup]
     public void Setup()
     {
-        this.firstMatrix = Matrix.GenerateRandomMatrix(this.MatrixSize, this.MatrixSize);
-        this.secondMatrix = Matrix.GenerateRandomMatrix(this.MatrixSize, this.MatrixSize);
+        this.firstMatrix = MatrixGenerator.GenerateRandomMatrix(this.MatrixSize, this.MatrixSize);
+        this.secondMatrix = MatrixGenerator.GenerateRandomMatrix(this.MatrixSize, this.MatrixSize);
     }
 
     /// <summary>
@@ -54,12 +53,12 @@ public class Benchmarks
     /// </summary>
     /// <returns>Result of the multiplication.</returns>
     [Benchmark]
-    public Matrix Parallel() => MatrixMultiplyer.ParallelMultiply(this.firstMatrix, this.secondMatrix);
+    public Matrix Parallel() => MatrixMultiplier.ParallelMultiply(this.firstMatrix, this.secondMatrix);
 
     /// <summary>
     /// Multiplicates matrices sequentially.
     /// </summary>
     /// <returns>Result of the multiplication.</returns>
     [Benchmark]
-    public Matrix Sequentially() => MatrixMultiplyer.Multiply(this.firstMatrix, this.secondMatrix);
+    public Matrix Sequentially() => MatrixMultiplier.Multiply(this.firstMatrix, this.secondMatrix);
 }

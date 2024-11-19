@@ -62,8 +62,8 @@ public class Tests
         var expectedMatrix = new Matrix(expectedResult);
         var matrix1 = new Matrix(elements1);
         var matrix2 = new Matrix(elements2);
-        var resultMatrix = MatrixMultiplyer.Multiply(matrix1, matrix2);
-        Assert.That(resultMatrix.IsEqualTo(expectedMatrix), Is.True);
+        var resultMatrix = MatrixMultiplier.Multiply(matrix1, matrix2);
+        Assert.That(resultMatrix == expectedMatrix);
     }
 
     [Test]
@@ -75,8 +75,8 @@ public class Tests
         var expectedMatrix = new Matrix(expectedResult);
         var matrix1 = new Matrix(elements1);
         var matrix2 = new Matrix(elements2);
-        var resultMatrix = MatrixMultiplyer.ParallelMultiply(matrix1, matrix2);
-        Assert.That(resultMatrix.IsEqualTo(expectedMatrix), Is.True);
+        var resultMatrix = MatrixMultiplier.ParallelMultiply(matrix1, matrix2);
+        Assert.That(resultMatrix == expectedMatrix);
     }
     
     [Test]
@@ -86,6 +86,6 @@ public class Tests
         int[,] elements2 = {{7, 8}, {9, 10}, {11, 12}};
         var matrix1 = new Matrix(elements1);
         var matrix2 = new Matrix(elements2);
-        Assert.Throws<ArgumentException>(() => MatrixMultiplyer.Multiply(matrix1, matrix2));
+        Assert.Throws<ArgumentException>(() => MatrixMultiplier.Multiply(matrix1, matrix2));
     }
 }

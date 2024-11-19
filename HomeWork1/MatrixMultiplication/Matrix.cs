@@ -17,7 +17,11 @@ namespace MatrixMultiplication;
 /// <summary>
 /// Class that represents matrix.
 /// </summary>
+#pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
+#pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
 public class Matrix
+#pragma warning restore CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
+#pragma warning restore CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
 {
     /// <summary>
     /// Gets 2D array which contains matrix elements.
@@ -55,7 +59,7 @@ public class Matrix
 
             for (var currentColumn = 0; currentColumn < numberOfColumns; ++currentColumn)
             {
-                if (!int.TryParse(elements[currentColumn], out int currentElement))
+                if (!int.TryParse(elements[currentColumn], out var currentElement))
                 {
                     throw new ArgumentException();
                 }
@@ -89,35 +93,13 @@ public class Matrix
         set => this.matrixElements[row, column] = value;
     }
 
-    /// <summary>
-    /// Generates new matrix filled with random numbers.
-    /// </summary>
-    /// <param name="rowsCount">Count of rows in the generated matrix.</param>
-    /// <param name="columnsCount">Count of columns in the generated matrix.</param>
-    /// <returns>Generated matrix.</returns>
-    public static Matrix GenerateRandomMatrix(int rowsCount, int columnsCount)
-    {
-        var newMatrix = new int[rowsCount, columnsCount];
-        var rand = new Random();
-        for (var currentRow = 0; currentRow < rowsCount; ++currentRow)
-        {
-            for (var currentColumn = 0; currentColumn < columnsCount; ++currentColumn)
-            {
-                newMatrix[currentRow, currentColumn] = rand.Next();
-            }
-        }
+    public static bool operator ==(Matrix a, Matrix b) => Enumerable.Range(0, 2).All(dimension =>
+        a.matrixElements.GetLength(dimension) == b.matrixElements.GetLength(dimension)) &&
+        a.matrixElements.Cast<int>().SequenceEqual(b.matrixElements.Cast<int>());
 
-        return new Matrix(newMatrix);
-    }
-
-    /// <summary>
-    /// Compares other matrix to this matrix.
-    /// </summary>
-    /// <param name="other">Other matrix.</param>
-    /// <returns>True, if other matrix is equal to this matrix, and False otherwise.</returns>
-    public bool IsEqualTo(Matrix other) => Enumerable.Range(0, 2).All(dimension =>
-        this.matrixElements.GetLength(dimension) == other.matrixElements.GetLength(dimension)) &&
-        this.matrixElements.Cast<int>().SequenceEqual(other.matrixElements.Cast<int>());
+    public static bool operator !=(Matrix a, Matrix b) => Enumerable.Range(0, 2).All(dimension =>
+        a.matrixElements.GetLength(dimension) != b.matrixElements.GetLength(dimension)) ||
+        !a.matrixElements.Cast<int>().SequenceEqual(b.matrixElements.Cast<int>());
 
     /// <summary>
     /// Writes matrix to the file.

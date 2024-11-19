@@ -17,7 +17,7 @@ namespace MatrixMultiplication;
 /// <summary>
 /// Class that multiplies matrices.
 /// </summary>
-public static class MatrixMultiplyer
+public static class MatrixMultiplier
 {
     /// <summary>
     /// Multiplies two matrices and returns result.

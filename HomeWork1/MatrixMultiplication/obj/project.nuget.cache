@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "6wrGwHeqYF2fhP65O4iJB4llVLy+65MI9dakMuE8vYLg25aqWzEMFd22FEYVT7ttjAvsvfEWVXa6pWZ7WiVYHQ==",
+  "dgSpecHash": "roUd2bpaApReVKD76hPwOJheRwh9OcP9LX4mqP9dDmUaaIzLYk9D7i4v0D2BopE7b0YEvZhiiYPUGTpvpYnbMA==",
   "success": true,
   "projectFilePath": "/home/kamen/HomeWorkThirdSemester/HomeWork1/MatrixMultiplication/MatrixMultiplication.csproj",
   "expectedPackageFiles": [
@@ -39,7 +39,7 @@
     "/home/kamen/.nuget/packages/system.security.principal.windows/5.0.0/system.security.principal.windows.5.0.0.nupkg.sha512",
     "/home/kamen/.nuget/packages/system.text.encoding.codepages/4.5.1/system.text.encoding.codepages.4.5.1.nupkg.sha512",
     "/home/kamen/.nuget/packages/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "/home/kamen/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.8/microsoft.aspnetcore.app.ref.8.0.8.nupkg.sha512"
+    "/home/kamen/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.10/microsoft.aspnetcore.app.ref.8.0.10.nupkg.sha512"
   ],
   "logs": []
 }
