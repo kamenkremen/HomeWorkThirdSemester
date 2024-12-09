@@ -19,14 +19,10 @@ using SimpleFTP;
 
 public class Tests
 {
+    private Server? server;
+    private Client? client;
+    private readonly IPEndPoint endPoint = new (IPAddress.Loopback, 8888);
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    private Server server;
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    private Client client;
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    private IPEndPoint endPoint = new (IPAddress.Loopback, 8888);
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
@@ -37,13 +33,13 @@ public class Tests
 
     [OneTimeTearDown]
     public void OneTimeTearDown() {
-        this.server.Stop();
+        this.server!.Stop();
     }
 
     [Test]
     public async Task ListCorrectPathTest()
     {
-        var a = await this.client.List("../../../TestFiles/test1");
+        var actual = await this.client!.List("../../../TestFiles/test1");
         var expected = "2";
         var files = Directory.GetFileSystemEntries("../../../TestFiles/test1");
         Array.Sort(files);
@@ -55,31 +51,31 @@ public class Tests
             expected += (Directory.Exists(file) ? "true" : "false");
         }
 
-        Assert.That(a, Is.EqualTo(expected));
+        Assert.That(actual, Is.EqualTo(expected));
     }
 
     [Test]
     public async Task GetCorrectPathTest()
     {
-        var a = await this.client.Get("../../../TestFiles/test1/test1.txt");
-        var excpected = "4 hehe";
-        Assert.That(a, Is.EqualTo(excpected));
+        var actual = await this.client!.Get("../../../TestFiles/test1/test1.txt");
+        var expected = "4 hehe";
+        Assert.That(actual, Is.EqualTo(expected));
     }
 
     [Test]
     public async Task ListIncorrectPath()
     {
-        var a = await this.client.List("test2");
-        var excpected = "-1";
-        Assert.That(a, Is.EqualTo(excpected));
+        var actual = await this.client!.List("test2");
+        var expected = "-1";
+        Assert.That(actual, Is.EqualTo(expected));
     }
 
     [Test]
     public async Task GetIncorrectPath()
     {
-        var a = await this.client.List("test2.txt");
-        var excpected = "-1";
-        Assert.That(a, Is.EqualTo(excpected));
+        var actual = await this.client!.List("test2.txt");
+        var expected = "-1";
+        Assert.That(actual, Is.EqualTo(expected));
     }
 
     [Test]
@@ -97,18 +93,20 @@ public class Tests
             tasks[i] = Task.Run(
                 async () => 
                 {
-                var newClient = new Client(endPoint);
-                listResults[locali] = await newClient.List(listPath);
-                getResults[locali] = await newClient.Get(getPath);
+                    var newClient = new Client(endPoint);
+                    listResults[locali] = await newClient.List(listPath);
+                    getResults[locali] = await newClient.Get(getPath);
                 });
         }
         Task.WaitAll(tasks);
 
-        foreach (var getResult in getResults) {
+        foreach (var getResult in getResults)
+        {
             Assert.That(getResult, Is.EqualTo(getResults[0]));
         }
 
-        foreach (var listResult in listResults) {
+        foreach (var listResult in listResults)
+        {
             Assert.That(listResult, Is.EqualTo(listResults[0]));
         }
     }
