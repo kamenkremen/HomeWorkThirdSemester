@@ -51,7 +51,29 @@ public class Client(IPEndPoint endPoint)
         writer.AutoFlush = true;
         using var reader = new StreamReader(stream);
         await writer.WriteLineAsync(request);
-        var result = await reader.ReadLineAsync();
+        var result = string.Empty;
+        if (request == "2")
+        {
+            var lengthString = string.Empty;
+            char[] buf = new char[1];
+            while (buf[0] != ' ')
+            {
+                buf = new char[1];
+                reader.Read(buf);
+
+                lengthString += buf[0];
+            }
+
+            var length = int.Parse(lengthString);
+            buf = new char[length + 1];
+            _ = reader.ReadAsync(buf);
+            result = $"{length} {result}";
+        }
+        else
+        {
+            result = await reader.ReadLineAsync();
+        }
+
         return result;
     }
 }

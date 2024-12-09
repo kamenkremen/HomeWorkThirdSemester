@@ -88,7 +88,8 @@ public class Tests
         var listResults = new string?[clients];
         var getResults = new string?[clients];
         var tasks = new Task[clients];
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             var locali = i;
             tasks[i] = Task.Run(
                 async () => 
