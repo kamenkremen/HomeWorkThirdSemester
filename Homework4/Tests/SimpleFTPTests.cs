@@ -44,8 +44,18 @@ public class Tests
     public async Task ListCorrectPathTest()
     {
         var a = await this.client.List("../../../TestFiles/test1");
-        var excpected = "2 ../../../TestFiles/test1/test1.txt false ../../../TestFiles/test1/test1folder true";
-        Assert.That(a, Is.EqualTo(excpected));
+        var expected = "2";
+        var files = Directory.GetFileSystemEntries("../../../TestFiles/test1");
+        Array.Sort(files);
+        foreach (var file in files)
+        {
+            expected += ' ';
+            expected += file;
+            expected += " ";
+            expected += (Directory.Exists(file) ? "true" : "false");
+        }
+
+        Assert.That(a, Is.EqualTo(expected));
     }
 
     [Test]
