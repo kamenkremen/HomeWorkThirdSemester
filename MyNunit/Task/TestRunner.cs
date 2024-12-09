@@ -1,11 +1,31 @@
+// Copyright 2024 Ivan Zakarlyuka.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+namespace MyNunit;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace MyNunit;
-
+/// <summary>
+/// Class that runs tests.
+/// </summary>
 public static class TestRunner
 {
+    /// <summary>
+    /// Runs tests from path.
+    /// </summary>
+    /// <param name="path">Path to directory with tests.</param>
+    /// <exception cref="ArgumentException">Throws if there is no such path.</exception>
     public static void RunFromPath(string path)
     {
         if (!Directory.Exists(path))
@@ -31,12 +51,17 @@ public static class TestRunner
         foreach (var type in assembly.DefinedTypes)
         {
             var tests = type.GetMethods().Where(method => method.GetCustomAttributes<Test>().Any()).ToList();
-            var beforeClassMethods = tests.Where(method => method.GetCustomAttributes<BeforeClass>().Any()).ToList();
-            var afterClassMethods = tests.Where(method => method.GetCustomAttributes<AfterClass>().Any()).ToList();
-            var beforeMethods = tests.Where(method => method.GetCustomAttributes<Before>().Any()).ToList();
-            var afterMethods = tests.Where(method => method.GetCustomAttributes<After>().Any()).ToList();
+            var beforeClassMethods = type.GetMethods().Where(method => method.GetCustomAttributes<BeforeClass>().Any()).ToList();
+            var afterClassMethods = type.GetMethods().Where(method => method.GetCustomAttributes<AfterClass>().Any()).ToList();
+            var beforeMethods = type.GetMethods().Where(method => method.GetCustomAttributes<Before>().Any()).ToList();
+            var afterMethods = type.GetMethods().Where(method => method.GetCustomAttributes<After>().Any()).ToList();
             foreach (var method in beforeClassMethods)
             {
+                if (!method.IsStatic)
+                {
+                    throw new InvalidDataException($"BeforeClass method should be static, {method.Name} is not static.");
+                }
+
                 method.Invoke(null, null);
             }
 
@@ -51,6 +76,11 @@ public static class TestRunner
 
             foreach (var method in afterClassMethods)
             {
+                if (!method.IsStatic)
+                {
+                    throw new InvalidDataException($"AfterClass method should be static, {method.Name} is not static.");
+                }
+
                 method.Invoke(null, null);
             }
         }
@@ -88,7 +118,7 @@ public static class TestRunner
         {
             foreach (var beforeMethod in beforeMethods)
             {
-                beforeMethod.Invoke(type, null);
+                beforeMethod.Invoke(instance, null);
             }
         }
 
@@ -96,7 +126,7 @@ public static class TestRunner
         try
         {
             stopwatch.Start();
-            testMethodInfo.Invoke(type, null);
+            testMethodInfo.Invoke(instance, null);
             stopwatch.Stop();
             result.EllapsedTime = stopwatch.ElapsedMilliseconds;
             result.Ok = true;
@@ -122,7 +152,7 @@ public static class TestRunner
         {
             foreach (var afterMethod in afterMethods)
             {
-                afterMethod.Invoke(type, null);
+                afterMethod.Invoke(instance, null);
             }
         }
 
@@ -131,6 +161,11 @@ public static class TestRunner
 
     private static void PrintResults(ConcurrentBag<TestResult> results)
     {
+        if (results.IsEmpty)
+        {
+            return;
+        }
+
         var toPrint = string.Empty;
         var passed = 0;
         var ignored = 0;
