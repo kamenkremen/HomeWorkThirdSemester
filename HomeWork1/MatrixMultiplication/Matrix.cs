@@ -17,11 +17,7 @@ namespace MatrixMultiplication;
 /// <summary>
 /// Class that represents matrix.
 /// </summary>
-#pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
-#pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
 public class Matrix
-#pragma warning restore CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
-#pragma warning restore CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
 {
     /// <summary>
     /// Gets 2D array which contains matrix elements.
@@ -90,7 +86,6 @@ public class Matrix
     public int this[int row, int column]
     {
         get => this.matrixElements[row, column];
-        set => this.matrixElements[row, column] = value;
     }
 
     public static bool operator ==(Matrix a, Matrix b) => Enumerable.Range(0, 2).All(dimension =>

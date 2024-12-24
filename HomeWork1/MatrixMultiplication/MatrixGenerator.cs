@@ -19,6 +19,8 @@ namespace MatrixMultiplication;
 /// </summary>
 public static class MatrixGenerator
 {
+    private static readonly Random Random = new ();
+
     /// <summary>
     /// Generates new matrix filled with random numbers.
     /// </summary>
@@ -28,12 +30,11 @@ public static class MatrixGenerator
     public static Matrix GenerateRandomMatrix(int rowsCount, int columnsCount)
     {
         var newMatrix = new int[rowsCount, columnsCount];
-        var random = new Random();
         for (var currentRow = 0; currentRow < rowsCount; ++currentRow)
         {
             for (var currentColumn = 0; currentColumn < columnsCount; ++currentColumn)
             {
-                newMatrix[currentRow, currentColumn] = random.Next();
+                newMatrix[currentRow, currentColumn] = Random.Next();
             }
         }
 

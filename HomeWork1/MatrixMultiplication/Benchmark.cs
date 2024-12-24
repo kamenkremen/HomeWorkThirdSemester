@@ -23,14 +23,12 @@ public class Benchmarks
     /// <summary>
     /// First matrix in multiplication.
     /// </summary>
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    private Matrix firstMatrix;
+    private Matrix? firstMatrix;
 
     /// <summary>
     /// Second matrix in multiplication.
     /// </summary>
-    private Matrix secondMatrix;
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    private Matrix? secondMatrix;
 
     /// <summary>
     /// Gets size of matrix for benchmark.
@@ -53,12 +51,12 @@ public class Benchmarks
     /// </summary>
     /// <returns>Result of the multiplication.</returns>
     [Benchmark]
-    public Matrix Parallel() => MatrixMultiplier.ParallelMultiply(this.firstMatrix, this.secondMatrix);
+    public Matrix Parallel() => MatrixMultiplier.ParallelMultiply(this.firstMatrix!, this.secondMatrix!);
 
     /// <summary>
     /// Multiplicates matrices sequentially.
     /// </summary>
     /// <returns>Result of the multiplication.</returns>
     [Benchmark]
-    public Matrix Sequentially() => MatrixMultiplier.Multiply(this.firstMatrix, this.secondMatrix);
+    public Matrix Sequentially() => MatrixMultiplier.Multiply(this.firstMatrix!, this.secondMatrix!);
 }
