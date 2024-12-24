@@ -1,6 +1,20 @@
-﻿using System.Collections.Concurrent;
-
+﻿// Copyright 2024 Ivan Zakarlyuka.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 namespace MyThreadPool;
+
+using System.Collections.Concurrent;
+
 /// <summary>
 /// Class that implements threadpool.
 /// </summary>
@@ -36,11 +50,11 @@ public class MyThreadPool
     /// </summary>
     /// <typeparam name="TResult">Return type of the function.</typeparam>
     /// <param name="function">Function, that is going to be calculated.</param>
-    /// <returns>Taks, that represents function calculation.</returns>
+    /// <returns>Task, that represents function calculation.</returns>
     /// <exception cref="TaskCanceledException">Throws if threadpool had been shutted down.</exception>
     public IMyTask<TResult> Submit<TResult>(Func<TResult> function)
     {
-        if (this.tokenSource.Token.IsCancellationRequested)
+        if (this.tokenSource.IsCancellationRequested)
         {
             throw new TaskCanceledException();
         }
@@ -99,6 +113,11 @@ public class MyThreadPool
         {
             get
             {
+                if (this.IsCompleted)
+                {
+                    return this.result;
+                }
+
                 lock (this.lockObject)
                 {
                     while (!this.IsCompleted)
@@ -118,7 +137,7 @@ public class MyThreadPool
 
         public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult?, TNewResult> nextFunction)
         {
-            if (this.threadPool.tokenSource.Token.IsCancellationRequested)
+            if (this.threadPool.tokenSource.IsCancellationRequested)
             {
                 throw new TaskCanceledException();
             }
