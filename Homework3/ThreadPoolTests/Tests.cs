@@ -43,11 +43,11 @@ public class Tests
     [Test]
     public void TestNumberOfThreads() 
     {
-        MyThreadPool.MyThreadPool threadPool = new(8);
+        MyThreadPool.MyThreadPool threadPool = new(5);
         HashSet<Thread?> threads = [];
         List<IMyTask<Thread>> tasks = [];
         ManualResetEvent mre = new (false);
-        for (int i = 0; i < 10 * threadPool.NumberOfThreads; ++i)
+        for (int i = 0; i < 100 * threadPool.NumberOfThreads; ++i)
         {
             tasks.Add(threadPool.Submit<Thread>(() => 
             {
