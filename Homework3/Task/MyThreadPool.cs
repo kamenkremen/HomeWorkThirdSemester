@@ -54,17 +54,20 @@ public class MyThreadPool
     /// <exception cref="TaskCanceledException">Throws if threadpool had been shutted down.</exception>
     public IMyTask<TResult> Submit<TResult>(Func<TResult> function)
     {
-        if (this.tokenSource.IsCancellationRequested)
+        lock (this.taskQueue)
         {
-            throw new TaskCanceledException();
-        }
+            if (this.tokenSource.IsCancellationRequested)
+            {
+                throw new TaskCanceledException();
+            }
 
-        lock (this.lockObject)
-        {
-            var newTask = new MyTask<TResult>(function, this);
-            this.taskQueue.Enqueue(newTask.Execute);
-            Monitor.Pulse(this.lockObject);
-            return newTask;
+            lock (this.lockObject)
+            {
+                var newTask = new MyTask<TResult>(function, this);
+                this.taskQueue.Enqueue(newTask.Execute);
+                Monitor.Pulse(this.lockObject);
+                return newTask;
+            }
         }
     }
 
@@ -73,11 +76,14 @@ public class MyThreadPool
     /// </summary>
     public void Shutdown()
     {
-        this.tokenSource.Cancel();
-
-        foreach (var thread in this.threads)
+        lock (this.taskQueue)
         {
-            thread.Join();
+            this.tokenSource.Cancel();
+
+            foreach (var thread in this.threads)
+            {
+                thread.Join();
+            }
         }
     }
 
@@ -115,6 +121,11 @@ public class MyThreadPool
             {
                 if (this.IsCompleted)
                 {
+                    if (this.exception != null)
+                    {
+                        throw new AggregateException(this.exception);
+                    }
+
                     return this.result;
                 }
 
@@ -137,20 +148,23 @@ public class MyThreadPool
 
         public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult?, TNewResult> nextFunction)
         {
-            if (this.threadPool.tokenSource.IsCancellationRequested)
+            lock (this.threadPool.taskQueue)
             {
-                throw new TaskCanceledException();
+                if (this.threadPool.tokenSource.IsCancellationRequested)
+                {
+                    throw new TaskCanceledException();
+                }
+
+                if (this.IsCompleted)
+                {
+                    return this.threadPool.Submit(() => nextFunction(this.Result));
+                }
+
+                MyTask<TNewResult> nextTask = new (() => nextFunction(this.Result), this.threadPool);
+                this.tasksToContinueWith.Enqueue(nextTask.Execute);
+
+                return nextTask;
             }
-
-            if (this.IsCompleted)
-            {
-                return this.threadPool.Submit(() => nextFunction(this.Result));
-            }
-
-            MyTask<TNewResult> nextTask = new (() => nextFunction(this.Result), this.threadPool);
-            this.tasksToContinueWith.Enqueue(nextTask.Execute);
-
-            return nextTask;
         }
 
         public void Execute()
