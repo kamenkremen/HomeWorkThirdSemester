@@ -15,6 +15,7 @@
 namespace SimpleFTPTests;
 
 using System.Net;
+using System.Text;
 using SimpleFTP;
 
 public class Tests
@@ -40,18 +41,18 @@ public class Tests
     public async Task ListCorrectPathTest()
     {
         var actual = await this.client!.List("../../../TestFiles/test1");
-        var expected = "2";
+        var expected = new StringBuilder("2");
         var files = Directory.GetFileSystemEntries("../../../TestFiles/test1");
         Array.Sort(files);
         foreach (var file in files)
         {
-            expected += ' ';
-            expected += file;
-            expected += " ";
-            expected += (Directory.Exists(file) ? "true" : "false");
+            expected.Append(' ');
+            expected.Append(file);
+            expected.Append(" ");
+            expected.Append(Directory.Exists(file) ? "true" : "false");
         }
 
-        Assert.That(actual, Is.EqualTo(expected));
+        Assert.That(actual, Is.EqualTo(expected.ToString()));
     }
 
     [Test]

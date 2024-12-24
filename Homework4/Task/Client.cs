@@ -14,6 +14,7 @@
 namespace SimpleFTP;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
 /// <summary>
 /// Client for simple FTP connection.
@@ -54,17 +55,17 @@ public class Client(IPEndPoint endPoint)
         var result = string.Empty;
         if (request == "2")
         {
-            var lengthString = string.Empty;
+            var lengthString = new StringBuilder();
             char[] buf = new char[1];
             while (buf[0] != ' ')
             {
                 buf = new char[1];
                 reader.Read(buf);
 
-                lengthString += buf[0];
+                lengthString.Append(buf[0]);
             }
 
-            var length = int.Parse(lengthString);
+            var length = int.Parse(lengthString.ToString());
             buf = new char[length + 1];
             _ = reader.ReadAsync(buf);
             result = $"{length} {result}";
