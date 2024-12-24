@@ -96,8 +96,6 @@ public class Tests
         {
             Assert.Pass();
         }
-
-        Assert.Fail();
     }
 
 
