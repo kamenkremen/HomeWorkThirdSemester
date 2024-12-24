@@ -58,6 +58,7 @@ public class Tests
         
         mre.Set();
         Thread.Sleep(200);
+        threadPool.Shutdown();
         
         foreach(var task in tasks)
         {
