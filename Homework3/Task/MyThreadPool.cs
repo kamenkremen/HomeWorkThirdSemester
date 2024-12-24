@@ -20,6 +20,7 @@ using System.Collections.Concurrent;
 /// </summary>
 public class MyThreadPool
 {
+    private static readonly AutoResetEvent ResetEvent = new (true);
     private readonly CancellationTokenSource tokenSource = new ();
     private readonly ConcurrentQueue<Action> taskQueue = new ();
     private readonly object lockObject = new ();
@@ -61,13 +62,10 @@ public class MyThreadPool
                 throw new TaskCanceledException();
             }
 
-            lock (this.lockObject)
-            {
-                var newTask = new MyTask<TResult>(function, this);
-                this.taskQueue.Enqueue(newTask.Execute);
-                Monitor.Pulse(this.lockObject);
-                return newTask;
-            }
+            var newTask = new MyTask<TResult>(function, this);
+            this.taskQueue.Enqueue(newTask.Execute);
+            ResetEvent.Set();
+            return newTask;
         }
     }
 
@@ -92,12 +90,9 @@ public class MyThreadPool
         Action? currentAction = null;
         while (!this.taskQueue.IsEmpty || !token.IsCancellationRequested)
         {
-            lock (this.lockObject)
+            while (!this.taskQueue.IsEmpty && !this.taskQueue.TryDequeue(out currentAction))
             {
-                while (!this.taskQueue.IsEmpty && !this.taskQueue.TryDequeue(out currentAction))
-                {
-                    Monitor.Wait(this.lockObject);
-                }
+                ResetEvent.WaitOne();
             }
 
             currentAction?.Invoke();
@@ -106,6 +101,7 @@ public class MyThreadPool
 
     private class MyTask<TResult>(Func<TResult> function, MyThreadPool threadPool) : IMyTask<TResult>
     {
+        private static readonly AutoResetEvent TaskResetEvent = new (true);
         private readonly MyThreadPool threadPool = threadPool;
         private readonly ConcurrentQueue<Action> tasksToContinueWith = new ();
         private readonly Func<TResult> function = function;
@@ -129,20 +125,17 @@ public class MyThreadPool
                     return this.result;
                 }
 
-                lock (this.lockObject)
+                while (!this.IsCompleted)
                 {
-                    while (!this.IsCompleted)
-                    {
-                        Monitor.Wait(this.lockObject);
-                    }
-
-                    if (this.exception != null)
-                    {
-                        throw new AggregateException(this.exception);
-                    }
-
-                    return this.result;
+                    TaskResetEvent.WaitOne();
                 }
+
+                if (this.exception != null)
+                {
+                    throw new AggregateException(this.exception);
+                }
+
+                return this.result;
             }
         }
 
@@ -179,12 +172,9 @@ public class MyThreadPool
             }
             finally
             {
-                lock (this.lockObject)
-                {
-                    this.IsCompleted = true;
-                    this.ExecuteContinuations();
-                    Monitor.Pulse(this.lockObject);
-                }
+                this.IsCompleted = true;
+                this.ExecuteContinuations();
+                TaskResetEvent.Set();
             }
         }
 

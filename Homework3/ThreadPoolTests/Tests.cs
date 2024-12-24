@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using MyThreadPool;
 
 namespace ThreadPoolTests;
@@ -43,8 +44,61 @@ public class Tests
     public void TestNumberOfThreads() 
     {
         MyThreadPool.MyThreadPool threadPool = new(8);
-        Assert.That(threadPool.NumberOfThreads >= 8);
+        HashSet<Thread?> threads = [];
+        List<IMyTask<Thread>> tasks = [];
+        ManualResetEvent mre = new (false);
+        for (int i = 0; i < 10 * threadPool.NumberOfThreads; ++i)
+        {
+            tasks.Add(threadPool.Submit<Thread>(() => 
+            {
+                mre.WaitOne();
+                return Thread.CurrentThread;
+            }));
+        }
+        
+        mre.Set();
+        Thread.Sleep(200);
+        
+        foreach(var task in tasks)
+        {
+            threads.Add(task.Result);
+        }
+
+        Assert.That(threads, Has.Count.EqualTo(threadPool.NumberOfThreads));
     }
+
+    [Test]
+    public async Task TestConcurrentShutdownAndSubmit()
+    {
+        var threadPool = new MyThreadPool.MyThreadPool(8);
+        var tasks = new ConcurrentBag<IMyTask<int>> ();
+        var expected = 10;
+        ManualResetEvent mre = new (false);
+        var task = Task.Run(() => 
+        {
+            mre.WaitOne();
+            return threadPool.Submit<int>(() => 10);
+        });
+        var shutdown = Task.Run(() => 
+        {
+            mre.WaitOne();
+            threadPool.Shutdown();
+        });
+        mre.Set();
+        Thread.Sleep(200);
+        
+        try 
+        {
+            Assert.That((await task).Result, Is.EqualTo(expected));
+        }
+        catch (TaskCanceledException)
+        {
+            Assert.Pass();
+        }
+
+        Assert.Fail();
+    }
+
 
     [Test]
     public void TestExceptionThrowing() 
