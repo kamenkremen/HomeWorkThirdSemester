@@ -7,3 +7,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1633:File should have header", Justification = "license", Scope = "namespace", Target = "~N:Lazy")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1633:File should have header", Justification = "?")]
+[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1009", Justification = "?")]

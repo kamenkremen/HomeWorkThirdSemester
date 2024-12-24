@@ -19,11 +19,9 @@ namespace Lazy;
 /// </summary>
 /// <typeparam name="T">Return type of function, that is going to be calculated.</typeparam>
 /// <param name="supplier">Function, that is going to be calculated.</param>
-#pragma warning disable SA1009 // Closing parenthesis should be spaced correctly
 public class MultiThreadLazy<T>(Func<T?> supplier) : ILazy<T>
-#pragma warning restore SA1009 // Closing parenthesis should be spaced correctly
 {
-    private Func<T?> supplier = supplier;
+    private Func<T?>? supplier = supplier;
     private Exception? thrownException = null;
     private T? result;
     private bool calculated = false;
@@ -37,25 +35,26 @@ public class MultiThreadLazy<T>(Func<T?> supplier) : ILazy<T>
             throw this.thrownException;
         }
 
-        lock (this.lockObject)
+        if (!this.calculated)
         {
-            if (!this.calculated)
+            lock (this.lockObject)
             {
-                try
+                if (!this.calculated)
                 {
-                    this.result = this.supplier();
-                }
-                catch (Exception exception)
-                {
-                    this.thrownException = exception;
-                    throw;
-                }
-                finally
-                {
-                    this.calculated = true;
-                    #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                    this.supplier = null;
-                    #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+                    try
+                    {
+                        this.result = this.supplier!();
+                    }
+                    catch (Exception exception)
+                    {
+                        this.thrownException = exception;
+                        throw;
+                    }
+                    finally
+                    {
+                        this.calculated = true;
+                        this.supplier = null;
+                    }
                 }
             }
         }
