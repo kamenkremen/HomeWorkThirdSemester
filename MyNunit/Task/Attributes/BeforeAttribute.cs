@@ -1,7 +1,7 @@
 namespace MyNunit;
 
 /// <summary>
-/// 
+/// Attribute, that marks method, that is going to be used before each test.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 public sealed class Before : Attribute

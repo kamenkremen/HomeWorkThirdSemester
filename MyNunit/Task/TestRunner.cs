@@ -48,7 +48,7 @@ public static class TestRunner
     private static void RunFromAssebly(Assembly assembly)
     {
         var results = new ConcurrentBag<TestResult>();
-        foreach (var type in assembly.DefinedTypes)
+        Parallel.ForEach(assembly.DefinedTypes, type =>
         {
             var tests = type.GetMethods().Where(method => method.GetCustomAttributes<Test>().Any()).ToList();
             var beforeClassMethods = type.GetMethods().Where(method => method.GetCustomAttributes<BeforeClass>().Any()).ToList();
@@ -83,7 +83,7 @@ public static class TestRunner
 
                 method.Invoke(null, null);
             }
-        }
+        });
 
         PrintResults(results);
     }
