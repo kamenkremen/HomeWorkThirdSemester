@@ -85,6 +85,20 @@ public class MyThreadPool
         }
     }
 
+    private void SubmitAction(Action action)
+    {
+        lock (this.taskQueue)
+        {
+            if (this.tokenSource.IsCancellationRequested)
+            {
+                throw new TaskCanceledException();
+            }
+
+            this.taskQueue.Enqueue(action);
+            ResetEvent.Set();
+        }
+    }
+
     private void ThreadFunction(CancellationToken token)
     {
         Action? currentAction = null;
@@ -182,7 +196,12 @@ public class MyThreadPool
         {
             foreach (var task in this.tasksToContinueWith)
             {
-                this.threadPool.taskQueue.Enqueue(task);
+                if (this.threadPool.tokenSource.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                this.threadPool.SubmitAction(task);
             }
         }
     }
