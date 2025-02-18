@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "vRa+5Bf61XIbbS9qwPImYDe0wdZfQ0VebSyUjuCZSLZNF/N68/9f3n4kREwy/IaPaaWFj4b2eZpCDqHyacM7YA==",
+  "success": true,
+  "projectFilePath": "/home/kamen/HomeWorkThirdSemester/Reflector/Reflector.csproj",
+  "expectedPackageFiles": [
+    "/home/kamen/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.10/microsoft.aspnetcore.app.ref.8.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}
