@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>MatrixMultiplication.Benchmarks-20240919-205629</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.14.0, Arch Linux
+AMD Ryzen 7 6800H with Radeon Graphics, 1 CPU, 16 logical and 8 physical cores
+.NET SDK 8.0.108
+  [Host]     : .NET 8.0.8 (8.0.824.36612), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.8 (8.0.824.36612), X64 RyuJIT AVX2
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th>Method</th><th>MatrixSize</th><th>Mean       </th><th>Error    </th><th>StdDev   </th><th>Median    </th>
+</tr>
+</thead><tbody><tr><td>Parallel</td><td>10</td><td>935.715 &mu;s</td><td>8.9605 &mu;s</td><td>7.4824 &mu;s</td><td>936.422 &mu;s</td>
+</tr><tr><td>Sequentially</td><td>10</td><td>2.760 &mu;s</td><td>0.0277 &mu;s</td><td>0.0259 &mu;s</td><td>2.760 &mu;s</td>
+</tr><tr><td>Parallel</td><td>20</td><td>946.720 &mu;s</td><td>5.2807 &mu;s</td><td>4.9396 &mu;s</td><td>948.410 &mu;s</td>
+</tr><tr><td>Sequentially</td><td>20</td><td>26.437 &mu;s</td><td>0.4464 &mu;s</td><td>0.3485 &mu;s</td><td>26.364 &mu;s</td>
+</tr><tr><td>Parallel</td><td>100</td><td>1,809.100 &mu;s</td><td>13.2903 &mu;s</td><td>11.7815 &mu;s</td><td>1,808.894 &mu;s</td>
+</tr><tr><td>Sequentially</td><td>100</td><td>2,494.496 &mu;s</td><td>19.4486 &mu;s</td><td>16.2405 &mu;s</td><td>2,492.866 &mu;s</td>
+</tr><tr><td>Parallel</td><td>200</td><td>8,609.526 &mu;s</td><td>57.1723 &mu;s</td><td>44.6363 &mu;s</td><td>8,601.352 &mu;s</td>
+</tr><tr><td>Sequentially</td><td>200</td><td>20,811.034 &mu;s</td><td>196.2811 &mu;s</td><td>173.9981 &mu;s</td><td>20,728.802 &mu;s</td>
+</tr><tr><td>Parallel</td><td>400</td><td>65,596.809 &mu;s</td><td>760.4447 &mu;s</td><td>711.3205 &mu;s</td><td>65,413.514 &mu;s</td>
+</tr><tr><td>Sequentially</td><td>400</td><td>164,998.166 &mu;s</td><td>2,844.3540 &mu;s</td><td>2,375.1644 &mu;s</td><td>163,976.850 &mu;s</td>
+</tr><tr><td>Parallel</td><td>800</td><td>529,373.358 &mu;s</td><td>10,453.4868 &mu;s</td><td>11,619.0228 &mu;s</td><td>528,125.581 &mu;s</td>
+</tr><tr><td>Sequentially</td><td>800</td><td>1,422,069.508 &mu;s</td><td>5,710.0907 &mu;s</td><td>4,458.0632 &mu;s</td><td>1,423,080.318 &mu;s</td>
+</tr><tr><td>Parallel</td><td>1600</td><td>4,207,993.746 &mu;s</td><td>64,249.7818 &mu;s</td><td>53,651.4777 &mu;s</td><td>4,197,824.543 &mu;s</td>
+</tr><tr><td>Sequentially</td><td>1600</td><td>10,170,029.942 &mu;s</td><td>283,443.5149 &mu;s</td><td>835,739.6595 &mu;s</td><td>9,719,510.238 &mu;s</td>
+</tr></tbody></table>
+</body>
+</html>
