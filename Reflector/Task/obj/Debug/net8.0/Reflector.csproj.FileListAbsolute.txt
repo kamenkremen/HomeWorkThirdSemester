@@ -1,0 +1,12 @@
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/bin/Debug/net8.0/Reflector.deps.json
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/bin/Debug/net8.0/Reflector.dll
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/bin/Debug/net8.0/Reflector.pdb
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/obj/Debug/net8.0/Reflector.GeneratedMSBuildEditorConfig.editorconfig
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/obj/Debug/net8.0/Reflector.AssemblyInfoInputs.cache
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/obj/Debug/net8.0/Reflector.AssemblyInfo.cs
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/obj/Debug/net8.0/Reflector.csproj.CoreCompileInputs.cache
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/obj/Debug/net8.0/Reflector.sourcelink.json
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/obj/Debug/net8.0/Reflector.dll
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/obj/Debug/net8.0/refint/Reflector.dll
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/obj/Debug/net8.0/Reflector.pdb
+/home/kamen/HomeWorkThirdSemester/Reflector/Task/obj/Debug/net8.0/ref/Reflector.dll
