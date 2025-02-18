@@ -1,0 +1,4 @@
+hehe
+server test message
+hehe
+exit
