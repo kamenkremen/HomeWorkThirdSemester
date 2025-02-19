@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "W3PfOMSpbl3i5l/2GBhAPbluhTR2cTwCoq1SZ6LhTJKCd7S0HsE7/JGhhPb0AdKdmp8gFlNRqs2NLKQJPQyWOg==",
+  "success": true,
+  "projectFilePath": "/home/kamen/HomeWorkThirdSemester/MD5/MD5.csproj",
+  "expectedPackageFiles": [
+    "/home/kamen/.nuget/packages/stylecop.analyzers/1.1.118/stylecop.analyzers.1.1.118.nupkg.sha512",
+    "/home/kamen/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.10/microsoft.aspnetcore.app.ref.8.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}
